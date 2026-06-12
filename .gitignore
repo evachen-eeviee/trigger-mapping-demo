@@ -1,3 +1,4 @@
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -5,25 +6,5 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-###< symfony/framework-bundle ###
-
-###> doctrine/doctrine-bundle ###
-/var/data.db
-###< doctrine/doctrine-bundle ###
-
-###> Composer ###
 /vendor/
-###< Composer ###
-
-###> Docker & Local DB Data ###
-# Ignore les données de la base de données si elles sont bind-mount en local
-.db-data/
-postgres-data/
-###< Docker & Local DB Data ###
-
-###> IDE & OS ###
-.idea/
-.vscode/
-.DS_Store
-Thumbs.db
-###< IDE & OS ###
+###< symfony/framework-bundle ###
