@@ -1,0 +1,44 @@
+services:
+    database:
+        image: postgres:16-alpine
+        environment:
+            POSTGRES_DB: gladiator_arena
+            POSTGRES_USER: app_user
+            POSTGRES_PASSWORD: app_password
+        ports:
+            - "5432:5432"
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U app_user -d gladiator_arena"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: frankenphp_dev
+        ports:
+            - "8080:80"
+            - "443:443"
+            - "443:443/udp"
+        volumes:
+            - .:/app
+            - caddy_data:/data
+            - caddy_config:/config
+        depends_on:
+            database:
+                condition: service_healthy
+        environment:
+            DATABASE_URL: "postgresql://app_user:app_password@database:5432/gladiator_arena?serverVersion=16&charset=utf8"
+            SERVER_NAME: "localhost:80"
+            CADDY_GLOBAL_OPTIONS: "local_certs"
+            FRANKENPHP_WORKER_CONFIG: "watch"
+
+
+volumes:
+    db-data:
+    caddy_data:
+    caddy_config:

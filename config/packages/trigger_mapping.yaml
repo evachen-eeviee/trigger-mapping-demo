@@ -1,0 +1,7 @@
+# config/packages/trigger_mapping.yaml
+trigger_mapping:
+    storage:
+        type: 'php'
+        directory: '%kernel.project_dir%/src/Triggers'
+        namespace: 'App\Triggers'
+    migrations: true
