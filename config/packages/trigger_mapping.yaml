@@ -5,3 +5,6 @@ trigger_mapping:
         directory: '%kernel.project_dir%/src/Triggers'
         namespace: 'App\Triggers'
     migrations: true
+    excludes:
+        - audit_logs_trigger_we_dont_own
+        - extension_xxx_trigger

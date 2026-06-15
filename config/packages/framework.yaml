@@ -3,7 +3,18 @@ framework:
     secret: '%env(APP_SECRET)%'
     http_method_override: false
     handle_all_throwables: true
-
-    # Configuration minimale pour que les commandes CLI fonctionnent
     router:
         utf8: true
+
+# On ajoute le bloc de services juste ici, dans le même fichier !
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../../src/' # Depuis config/packages/, il faut remonter de deux crans !
+        exclude:
+            - '../../src/DependencyInjection/'
+            - '../../src/Entity/'
+            - '../../src/Kernel.php'
