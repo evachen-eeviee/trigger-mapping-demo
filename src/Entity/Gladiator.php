@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use App\Triggers\UpdateGladiatorStatus;
+use App\Triggers\GladiatorAfterUpdate;
+use App\Triggers\GladiatorBeforeInsert;
+use App\Triggers\GladiatorBeforeUpdate;
 use Doctrine\ORM\Mapping as ORM;
 use Talleu\TriggerMapping\Attribute\Trigger;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,13 +13,30 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity]
 #[UniqueEntity('name', message: 'Un gladiateur porte déjà ce nom prestigieux !')]
 #[Trigger(
-    name: 'trg_gladiator_status_update',
-    function: 'fn_update_gladiator_status',
+    name: 'trg_gladiator_before_insert',
+    function: 'fn_gladiator_before_insert',
+    on: ['INSERT'],
+    when: 'BEFORE',
+    scope: 'ROW',
+    className: GladiatorBeforeInsert::class
+)]
+#[Trigger(
+    name: 'trg_gladiator_before_update',
+    function: 'fn_gladiator_before_update',
     on: ['UPDATE'],
     when: 'BEFORE',
     scope: 'ROW',
-    className: UpdateGladiatorStatus::class
+    className: GladiatorBeforeUpdate::class
 )]
+#[Trigger(
+    name: 'trg_gladiator_after_update',
+    function: 'fn_gladiator_after_update',
+    on: ['UPDATE'],
+    when: 'AFTER',
+    scope: 'ROW',
+    className: GladiatorAfterUpdate::class
+)]
+
 class Gladiator
 {
     #[ORM\Id]

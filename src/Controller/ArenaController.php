@@ -178,4 +178,32 @@ class ArenaController extends AbstractController
             'logs' => $logs
         ]);
     }
+
+    #[Route('/cheat/attack/{id}', name: 'app_cheat_attack', methods: ['GET'])]
+    public function cheatAttack(Gladiator $target, EntityManagerInterface $em): Response
+    {
+        try {
+            $target->healthPoints -= 50;
+            $em->flush();
+            $this->addFlash('success', "Triche réussie !");
+        } catch (\Exception $e) {
+            if (str_contains($e->getMessage(), 'TRICHE_DETECTEE')) {
+                $this->addFlash('error', "🛡️ BLOQUÉ PAR LA BDD : Le Trigger a empêché cette action illégale !");
+            } else {
+                $this->addFlash('error', "Erreur BDD : " . $e->getMessage());
+            }
+        }
+
+        return $this->redirectToRoute('app_select');
+    }
+
+    // SCÉNARIO 4 : Le Bonus de l'Empereur (Test du rafraîchissement de masse)
+    #[Route('/emperor/bonus', name: 'app_emperor_bonus', methods: ['GET'])]
+    public function emperorBonus(EntityManagerInterface $em): Response
+    {
+        $conn = $em->getConnection();
+        $conn->executeStatement("UPDATE gladiator SET health_points = 250 WHERE status = 'alive'");
+        $this->addFlash('success', "🎺 L'Empereur a soigné tous les combattants à 250 PV (Via SQL Brut) !");
+        return $this->redirectToRoute('app_select');
+    }
 }

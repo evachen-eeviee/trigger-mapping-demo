@@ -26,8 +26,23 @@
                     <td>
                         <a href="{{ path('app_login', {id: g.id}) }}"><button style="padding: 5px; font-size: 14px;">Incarner</button></a>
                     </td>
+                    <td>
+                        {% if g.status == 'exhausted' %}
+                            {# Bouton pour le scénario 2 (Exception BDD) #}
+                            <a href="{{ path('app_cheat_attack', {id: g.id}) }}"><button style="background: #343a40; font-size: 12px; padding: 5px;">Achever (Cheat)</button></a>
+                        {% endif %}
+                    </td>
                 </tr>
+
             {% endfor %}
+            <div class="box" style="margin-bottom: 20px; text-align: center; background: #fff3cd; border: 2px solid #ffeeba;">
+                <h3 style="color: #856404; margin-top: 0;">👑 Panneau de Démo (Trigger Tests)</h3>
+
+                {# Bouton pour le scénario 4 (Mass Update) #}
+                <a href="{{ path('app_emperor_bonus') }}"><button style="background: #ffc107; color: #000; width: auto;">+ Bonus de l'Empereur (SQL Brut)</button></a>
+            </div>
+
+            {# Dans la boucle de ton tableau <table>, rajoute une colonne "Test" : #}
         </table>
         <br><a href="{{ path('app_home') }}">⬅ Retour</a>
     </div>

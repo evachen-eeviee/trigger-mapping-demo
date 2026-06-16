@@ -4,7 +4,7 @@ namespace App\Triggers;
 
 use Talleu\TriggerMapping\Contract\PostgreSQLTriggerInterface;
 
-class UpdateGladiatorStatus implements PostgreSQLTriggerInterface
+class GladiatorBeforeUpdate implements PostgreSQLTriggerInterface
 {
     public static function getFunction(): string
     {
@@ -12,12 +12,9 @@ class UpdateGladiatorStatus implements PostgreSQLTriggerInterface
         CREATE OR REPLACE FUNCTION fn_update_gladiator_status()
         RETURNS TRIGGER AS $$
         BEGIN
-            -- S'il tombe à 1 PV ou moins, il est épuisé (intouchable)
             IF NEW.health_points <= 1 THEN
                 NEW.status := 'exhausted';
                 NEW.health_points := 1;
-
-            -- S'il se repose et dépasse 1 PV, il redevient combattable automatiquement !
             ELSIF NEW.health_points > 1 THEN
                 NEW.status := 'alive';
             END IF;
