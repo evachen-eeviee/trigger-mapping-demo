@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Play</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}">
+</head>
+<body>
+<div class="container" style="justify-content: center; text-align: center;">
+    <div class="box">
+        <h2>🛡️ {{ player.name }}</h2>
+        <p>❤️ <strong>{{ player.healthPoints }} HP</strong> | ⚔️ ATK: {{ player.statAtkPercent }}% | 🛡️ DEF: {{ player.statDefPercent }}%</p>
+
+        {% if player.status == 'exhausted' %}
+            <p style="color: #dc3545; font-weight: bold;">⚠️ ÉPUISÉ (1 PV)</p>
+            <p style="font-size: 13px;">Tu dois te reposer pour retourner dans l'arène.</p>
+            <hr><br>
+            <button style="background: #ccc; cursor: not-allowed;" disabled>⚔️ COMBATTRE</button><br><br>
+            <button style="background: #ccc; cursor: not-allowed;" disabled>🏋️ S'ENTRAÎNER</button><br><br>
+            <a href="{{ path('app_action', {type: 'rest'}) }}"><button style="background: #17a2b8;">💤 SE REPOSER (+ PV)</button></a>
+        {% else %}
+            <p style="color: #8b0000; font-weight: bold;">Actions avant combat obligatoire : {{ 3 - player.actionCount }} / 3</p>
+            <hr><br>
+
+            <a href="{{ path('app_fight_list') }}"><button style="background: #dc3545; height: 50px; font-size: 20px;">⚔️ COMBATTRE</button></a><br><br>
+
+            {% if player.actionCount < 3 %}
+                <a href="{{ path('app_action', {type: 'train'}) }}"><button style="background: #e0a800; color: black;">🏋️ S'ENTRAÎNER (ATK ou DEF)</button></a><br><br>
+                <a href="{{ path('app_action', {type: 'rest'}) }}"><button style="background: #17a2b8;">💤 SE REPOSER (+ PV)</button></a>
+            {% else %}
+                <button style="background: #ccc; cursor: not-allowed;" disabled>🏋️ S'ENTRAÎNER (Bloqué)</button><br><br>
+                <button style="background: #ccc; cursor: not-allowed;" disabled>💤 SE REPOSER (Bloqué)</button>
+                <p style="color: red; font-size: 12px;">Le public réclame du sang ! Va te battre !</p>
+            {% endif %}
+        {% endif %}
+        <br><br><br>
+        <a href="{{ path('app_select') }}" style="color: #666;">Changer de Gladiateur</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bilan</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}"></head>
+<body>
+<div class="container" style="justify-content: center; text-align: center; margin-top: 50px;">
+    <div class="box" style="border: 4px solid #8b0000;">
+        <h2>{{ title }}</h2>
+        <br>
+        {% for log in logs %}
+            <p style="font-size: 18px; margin: 15px 0;"><strong>{{ log }}</strong></p>
+        {% endfor %}
+        <br><br>
+        <a href="{{ path('app_play') }}"><button style="background: #28a745; height: 50px;">Continuer ➔</button></a>
+    </div>
+</div>
+</body>
+</html>

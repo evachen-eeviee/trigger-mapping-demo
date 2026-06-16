@@ -1,13 +1,15 @@
 <?php
 
-
 namespace App\Entity;
 
 use App\Triggers\UpdateGladiatorStatus;
 use Doctrine\ORM\Mapping as ORM;
 use Talleu\TriggerMapping\Attribute\Trigger;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity]
+#[UniqueEntity('name', message: 'Un gladiateur porte déjà ce nom prestigieux !')]
 #[Trigger(
     name: 'trg_gladiator_status_update',
     function: 'fn_update_gladiator_status',
@@ -21,52 +23,55 @@ class Gladiator
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    public ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    public ?string $name = null;
 
     #[ORM\Column]
-    private int $healthPoints = 100;
+    public int $healthPoints = 100;
+
+
+    #[ORM\Column(options: ["default" => 0])]
+    public int $actionCount = 0;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 5, max: 90, notInRangeMessage: 'Il faut au moins {{ min }}% en PV.')]
+    public int $statHpPercent = 34; // Par défaut pour faire 100% à trois
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 5, max: 90, notInRangeMessage: 'Il faut au moins {{ min }}% en Attaque.')]
+    public int $statAtkPercent = 33;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Range(notInRangeMessage: 'Il faut au moins {{ min }}% en Défense.', min: 5, max: 90)]
+    public int $statDefPercent = 33;
 
     #[ORM\Column(length: 50)]
-    private string $status = 'alive';
+    public string $status = 'alive';
 
-    public function __construct(string $name, int $healthPoints = 100)
+    public function __construct(string $name, int $hpPercent = 34, int $atkPercent = 33, int $defPercent = 33)
     {
         $this->name = $name;
-        $this->healthPoints = $healthPoints;
+        $this->statHpPercent = $hpPercent;
+        $this->statAtkPercent = $atkPercent;
+        $this->statDefPercent = $defPercent;
+        $this->healthPoints = $hpPercent;
     }
 
-    public function getId(): ?int
+    #[Assert\IsTrue(message: "Le total de tes pourcentages (PV + ATK + DEF) ne peut pas dépasser 100% !")]
+    public function isTotalPercentageValid(): bool
     {
-        return $this->id;
+        return ($this->statHpPercent + $this->statAtkPercent + $this->statDefPercent) <= 100;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function getHealthPoints(): int
-    {
-        return $this->healthPoints;
-    }
-
-    public function setHealthPoints(int $healthPoints): static
-    {
-        $this->healthPoints = $healthPoints;
+    public function setStatHpPercent(int $statHpPercent): static {
+        $this->statHpPercent = $statHpPercent;
+        $this->healthPoints = $statHpPercent;
         return $this;
     }
 
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-        return $this;
-    }
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Création</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}">
+</head>
+<body>
+<div class="container" style="justify-content: center; max-width: 600px; margin: auto;">
+    <div class="box">
+        <h2>Créer ton Gladiateur</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+        <br>
+        <a href="{{ path('app_home') }}" style="text-decoration: none; color: #666;">⬅ Retour à l'accueil</a>
+    </div>
+</div>
+</body>
+</html>

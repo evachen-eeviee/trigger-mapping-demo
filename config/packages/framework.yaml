@@ -6,14 +6,19 @@ framework:
     router:
         utf8: true
 
-# On ajoute le bloc de services juste ici, dans le même fichier !
+    session:
+        enabled: true
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+
 services:
     _defaults:
         autowire: true
         autoconfigure: true
 
     App\:
-        resource: '../../src/' # Depuis config/packages/, il faut remonter de deux crans !
+        resource: '../../src/'
         exclude:
             - '../../src/DependencyInjection/'
             - '../../src/Entity/'

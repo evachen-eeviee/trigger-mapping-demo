@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>L'Arène des Gladiateurs</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}">
+</head>
+<body>
+
+<h1>🏛️ L'Arène des Spécifications</h1>
+{% for message in app.flashes('success') %}
+    <div class="flash-success">{{ message }}</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="flash-error">{{ message }}</div>
+{% endfor %}
+{% if currentPlayer %}
+    <div class="player-card">
+        ⚔️ Tu incarnes actuellement : <strong>{{ currentPlayer.name }}</strong>
+        (❤️ {{ currentPlayer.healthPoints }} HP | ⚔️ ATK: {{ currentPlayer.statAtkPercent }}% | 🛡️ DEF: {{ currentPlayer.statDefPercent }}%)
+    </div>
+{% else %}
+    <div class="player-card" style="border-left-color: #6c757d;">
+        👤 Tu n'incarnes aucun gladiateur pour le moment. Choisis-en un dans le tableau pour combattre !
+    </div>
+{% endif %}
+
+{% if not form.vars.valid %}
+    <div class="error-list">
+        <strong>⚠️ Erreur de build du gladiateur :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.statHpPercent) }}
+        {{ form_errors(form.statAtkPercent) }}
+        {{ form_errors(form.statDefPercent) }}
+    </div>
+{% endif %}
+
+<div class="container">
+    <div class="box">
+        <h2>Répartir les 100% de Stats</h2>
+        <p style="font-size: 13px; color: #666; margin-bottom: 20px;">
+            Chaque champ doit faire au moins <strong>5%</strong>. Le total combiné ne doit pas excéder <strong>100%</strong>.
+        </p>
+
+        {{ form_start(form, {'action': path('app_arena_index')}) }}
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.statHpPercent) }}
+            {{ form_widget(form.statHpPercent) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.statAtkPercent) }}
+            {{ form_widget(form.statAtkPercent) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.statDefPercent) }}
+            {{ form_widget(form.statDefPercent) }}
+        </div>
+        {{ form_widget(form.save) }}
+        {{ form_end(form) }}
+    </div>
+
+    <div class="box">
+        <h2>Combattants Enregistrés</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Points de Vie (HP)</th>
+                <th>Répartition Réelle</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for gladiator in gladiators %}
+                <tr>
+                    <td><strong>{{ gladiator.name }}</strong></td>
+                    <td>{{ gladiator.healthPoints }} HP</td>
+                    <td>
+                        <div class="stat-bar">
+                            ❤️ {{ gladiator.statHpPercent }}% PV |
+                            ⚔️ {{ gladiator.statAtkPercent }}% ATK |
+                            🛡️ {{ gladiator.statDefPercent }}% DEF
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge {{ gladiator.status == 'alive' ? 'badge-alive' : 'badge-dead' }}">
+                            {{ gladiator.status }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if gladiator.status == 'alive' %}
+                            {% if currentPlayer and currentPlayer.id == gladiator.id %}
+                                <span style="font-size: 12px; font-style: italic; color: #28a745;">Toi</span>
+                            {% else %}
+                                <a href="{{ path('app_arena_login', {id: gladiator.id}) }}" class="btn-action">Incarner</a>
+
+                                {% if currentPlayer %}
+                                    <a href="{{ path('app_arena_status_fight', {targetId: gladiator.id}) }}" class="btn-action btn-fight">Défier</a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            <span style="color: #999; font-size: 12px;">Éliminé</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #666;">Aucun guerrier n'est prêt...</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

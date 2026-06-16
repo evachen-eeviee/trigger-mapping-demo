@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Accueil</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}">
+</head>
+    <body>
+    <div class="container" style="justify-content: center; text-align: center; margin-top: 100px;">
+        <div class="box">
+            <h1>🏛️ L'Arène (Trigger Mapping Demo)</h1>
+            <br>
+            <a href="{{ path('app_select') }}"><button style="background: #28a745;">Jouer (Sélectionner)</button></a>
+            <a href="{{ path('app_create') }}"><button>Créer un Gladiateur</button></a>
+            <a href="https://github.com/clementtalleu/trigger-mapping" target="_blank"><button style="background: #333;">Voir le Bundle sur GitHub</button></a>
+        </div>
+    </div>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sélection</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}"></head>
+<body>
+<div class="container">
+    <div class="box">
+        <h2>Choisis ton Combattant</h2>
+        {% for message in app.flashes('success') %}<div class="flash-success">{{ message }}</div>{% endfor %}
+        {% for message in app.flashes('error') %}<div class="error-list">{{ message }}</div>{% endfor %}
+
+        <table>
+            <tr><th>Nom</th><th>Stats Réelles</th><th>Status</th><th>Action</th></tr>
+            {% for g in gladiators %}
+                <tr>
+                    <td><strong>{{ g.name }}</strong></td>
+                    <td>❤️ {{ g.healthPoints }} HP | ⚔️ ATK: {{ g.statAtkPercent }}% | 🛡️ DEF: {{ g.statDefPercent }}%</td>
+                    <td>
+                        {% if g.status == 'alive' %}
+                            <span class="badge badge-alive">PRÊT</span>
+                        {% else %}
+                            <span class="badge badge-dead">ÉPUISÉ</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_login', {id: g.id}) }}"><button style="padding: 5px; font-size: 14px;">Incarner</button></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br><a href="{{ path('app_home') }}">⬅ Retour</a>
+    </div>
+</div>
+</body>
+</html>

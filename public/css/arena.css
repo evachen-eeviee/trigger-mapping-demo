@@ -1,0 +1,146 @@
+/* public/css/arena.css */
+
+body {
+    font-family: 'Segoe UI', Geneva, Verdana, sans-serif;
+    background: #f4f1ea;
+    color: #333;
+    margin: 40px;
+}
+
+h1, h2 {
+    color: #8b0000;
+    border-bottom: 2px solid #8b0000;
+    padding-bottom: 10px;
+}
+
+.container {
+    display: flex;
+    gap: 40px;
+}
+
+.box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background: #8b0000;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #a00000;
+}
+
+.flash-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-list {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #8b0000;
+    color: white;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-alive {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-dead {
+    background: #f8d7da;
+    color: #721c24;
+    text-transform: uppercase;
+}
+
+.stat-bar {
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+}
+
+.player-card {
+    background: #e9ecef;
+    border-left: 5px solid #8b0000;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+.btn-action {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.btn-action:hover { background: #5a6268; }
+.btn-fight { background: #dc3545; }
+.btn-fight:hover { background: #bd2130; }
+.flash-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adversaires</title>
+    <link rel="stylesheet" href="{{ asset('css/arena.css') }}">
+</head>
+<body>
+<div class="container"><div class="box">
+        <h2>Qui veux-tu défier ?</h2>
+        <table>
+            <tr><th>Nom</th><th>Stats Estimées</th><th>Action</th></tr>
+            {% for o in opponents %}
+                <tr>
+                    <td><strong>{{ o.name }}</strong></td>
+                    <td>❤️ {{ o.healthPoints }} HP | ⚔️ {{ o.statAtkPercent }}% | 🛡️ {{ o.statDefPercent }}%</td>
+                    <td><a href="{{ path('app_fight_duel', {id: o.id}) }}"><button style="background: #dc3545; padding: 5px;">Attaquer</button></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br><a href="{{ path('app_play') }}">⬅ Fuyons (Retour)</a>
+    </div></div>
+</body>
+</html>
